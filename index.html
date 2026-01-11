@@ -194,143 +194,111 @@
     </div>
 
     <script>
-        // 元素
-        const loginContainer = document.getElementById('login-container');
-        const mainPage = document.getElementById('main-page');
-        const message = document.getElementById('message');
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-        const playerName = document.getElementById('player-name');
-
-        // 讀取/儲存工具
-        function getAccounts() {
-            const data = localStorage.getItem('zhimeng_accounts');
-            return data ? JSON.parse(data) : { accounts: {} };
-        }
-
-        function saveAccounts(data) {
-            localStorage.setItem('zhimeng_accounts', JSON.stringify(data));
-        }
-
-        function getPlayerData(id) {
-            const data = localStorage.getItem(`player_${id}`);
-            return data ? JSON.parse(data) : null;
-        }
-
-        function savePlayerData(id, data) {
-            localStorage.setItem(`player_${id}`, JSON.stringify(data));
-            }
-
-        function showMessage(text, isError = false) {
-            message.style.color = isError ? '#ff4444' : '#00ff88';
-            message.textContent = text;
-        }
-
-        // 登入
+        // 取得元素
+        const loginContainer = document.getElementById('login-container');
+        const mainPage = document.getElementById('main-page');
+        const message = document.getElementById('message');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        // 讀取或初始化所有帳號資料
+        function getAccounts() {
+            const data = localStorage.getItem('zhimeng_accounts');
+            return data ? JSON.parse(data) : { accounts: {} };
+        }
+        function saveAccounts(data) {
+            localStorage.setItem('zhimeng_accounts', JSON.stringify(data));
+        }
+        // 顯示訊息（綠色成功 / 紅色錯誤）
+        function showMessage(text, isError = false) {
+            message.style.color = isError ? '#ff4444' : '#00ff88';
+            message.textContent = text;
+        }
+        // 登入功能
         document.getElementById('loginBtn').addEventListener('click', () => {
             const id = usernameInput.value.trim();
             const pw = passwordInput.value;
 
-            if (!id || !pw) return showMessage('請輸入玩家名稱和密碼！', true);
+            if (!id || !pw) {
+                showMessage('請輸入玩家名稱和密碼！', true);
+                return;
+            }
 
-            const accounts = getAccounts();
-            if (!accounts.accounts[id]) return showMessage('該ID不存在，請點擊「創建帳號」', true);
-            if (accounts.accounts[id] !== pw) return showMessage('密碼錯誤，請重新輸入密碼', true);
+            const data = getAccounts();
 
-            // 登入成功
-            localStorage.setItem('current_user', id);
-            showMessage('登入成功！即將進入織夢世界...', false);
+            if (!data.accounts[id]) {
+                // ID 不存在 → 明確提示去創建
+                showMessage('該ID不存在，請點擊「創建帳號」', true);
+                return;
+            }
 
-            setTimeout(() => {
-                loginContainer.style.display = 'none';
-                mainPage.style.display = 'block';
-                loadAndDisplayPlayerData(id);
-            }, 1500);
+            if (data.accounts[id] === pw) {
+                // 登入成功
+                localStorage.setItem('current_user', id);
+                showMessage('登入成功！即將進入織夢世界...', false);
+                setTimeout(() => {
+                    loginContainer.style.display = 'none';
+                    mainPage.style.display = 'block';  // 改成 block，避免 flex 造成的置中問題
+                    playerName.textContent = id;  // 同步名字
+                }, 1500);
+            } else {
+                // 密碼錯誤
+                showMessage('密碼錯誤，請重新輸入密碼', true);
+            }
         });
-
-        // 註冊
+        // 創建新帳號
         document.getElementById('registerBtn').addEventListener('click', () => {
             const id = usernameInput.value.trim();
             const pw = passwordInput.value;
 
-            if (!id || !pw) return showMessage('請輸入玩家名稱和密碼！', true);
-            if (id.length < 3) return showMessage('玩家名稱至少要 3 個字！', true);
+            if (!id || !pw) {
+                showMessage('請輸入玩家名稱和密碼！', true);
+                return;
+            }
 
-            const accounts = getAccounts();
-            if (accounts.accounts[id]) return showMessage('該ID已存在，請點擊「登入」', true);
+            if (id.length < 3) {
+                showMessage('玩家名稱至少要 3 個字！', true);
+                return;
+            }
 
-            accounts.accounts[id] = pw;
-            saveAccounts(accounts);
+            const data = getAccounts();
 
-            // 自動建立玩家初始資料
-            const initialData = {
-                level: 1,
-                lmd: 10000,
-                orundum: 500,
-                originium: 5,
-                sanity: 100,
-                maxSanity: 100,
-                operatorCenter: "default.png"  // 看板角色
-            };
-            savePlayerData(id, initialData);
+            if (data.accounts[id]) {
+                // 已存在 → 明確提示去登入
+                showMessage('該ID已存在，請點擊「登入」', true);
+                return;
+            }
+
+            // 建立新帳號
+            data.accounts[id] = pw;
+            saveAccounts(data);
 
             showMessage('帳號創建成功！現在可以登入囉～', false);
+            // 自動填入剛創的帳號，方便直接登入
             usernameInput.value = id;
-            passwordInput.value = pw;
+            passwordInput.value = pw;  // 順便填密碼，方便測試
         });
+        // 登出功能（主頁面用）
+        function logout() {
+            localStorage.removeItem('current_user');
+            mainPage.style.display = 'none';
+            loginContainer.style.display = 'block';
+            showMessage('');
+            usernameInput.value = '';
+            passwordInput.value = '';
+        }
+        // 頁面載入時：如果已經有登入，就直接進主頁
+        window.addEventListener('load', () => {
+            const current = localStorage.getItem('current_user');
+            if (current && getAccounts().accounts[current]) {
+                loginContainer.style.display = 'none';
+                mainPage.style.display = 'flex';
+                mainPage.style.flexDirection = 'column';
+                mainPage.style.justifyContent = 'center';
+                mainPage.style.alignItems = 'center';
+            }
+        });
 
-        // 載入並顯示玩家資料
-        function loadAndDisplayPlayerData(id) {
-            let data = getPlayerData(id);
-            if (!data) {
-                // 如果資料不見，重置初始
-                data = {
-                    level: 1,
-                    lmd: 10000,
-                    orundum: 500,
-                    originium: 5,
-                    sanity: 100,
-                    maxSanity: 100,
-                    operatorCenter: "default.png"
-                };
-                savePlayerData(id, data);
-            }
-
-            // 顯示到畫面
-            playerName.textContent = id;
-            document.getElementById('lmd-value').textContent = data.lmd;
-            document.getElementById('orundum-value').textContent = data.orundum;
-            document.getElementById('originium-value').textContent = data.originium;
-
-            // 更新終端理智
-            document.getElementById('terminal-btn').innerHTML = `終端<br>理智 ${data.sanity}/${data.maxSanity}`;
-
-            // 更新看板角色
-            document.getElementById('operator-center').src = `images/operator/${data.operatorCenter}`;
-        }
-
-        // 頁面載入時檢查是否已登入
-        window.addEventListener('load', () => {
-            const current = localStorage.getItem('current_user');
-            const accounts = getAccounts();
-            if (current && accounts.accounts[current]) {
-                loginContainer.style.display = 'none';
-                mainPage.style.display = 'block';
-                loadAndDisplayPlayerData(current);
-            }
-        });
-
-        // 登出
-        document.getElementById('logout-btn').addEventListener('click', () => {
-            localStorage.removeItem('current_user');
-            mainPage.style.display = 'none';
-            loginContainer.style.display = 'flex';
-            showMessage('');
-            usernameInput.value = '';
-            passwordInput.value = '';
-        });
-
-        // 預覽模式
+        // 預覽模式（同之前）
         document.getElementById('preview-btn').addEventListener('click', (e) => {
             e.stopPropagation();
             document.body.classList.add('preview-mode');
@@ -339,18 +307,6 @@
         document.addEventListener('click', (e) => {
             if (document.body.classList.contains('preview-mode') && e.target.id !== 'preview-btn') {
                 document.body.classList.remove('preview-mode');
-            }
-        });
-
-        // 其他按鈕基本互動（先用 alert 提示）
-        const buttons = ['terminal-btn', '編隊', '幹員', '商城', '公開招募', '幹員尋訪', '任務', '基建', '倉庫'];
-        buttons.forEach(idOrText => {
-            const btn = typeof idOrText === 'string' && document.getElementById(idOrText) ||
-                        Array.from(document.querySelectorAll('button')).find(b => b.textContent.includes(idOrText));
-            if (btn) {
-                btn.addEventListener('click', () => {
-                    alert(`${btn.textContent.trim()} 功能還在施工中～`);
-                });
             }
         });
     </script>
