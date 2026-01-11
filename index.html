@@ -209,6 +209,27 @@
         function saveAccounts(data) {
             localStorage.setItem('zhimeng_accounts', JSON.stringify(data));
         }
+        // 讀取/初始化玩家個人資料（資源等）
+        function getPlayerData(id) {
+            const key = 'player_data_' + id;
+            const data = localStorage.getItem(key);
+            let player = data ? JSON.parse(data) : null;
+
+            // 如果沒有資料，就給新玩家預設值
+            if (!player) {
+                player = {
+                    lmd: 10000,         // 龍門幣
+                    orundum: 500,       // 合成玉
+                    originium: 5,       // 至純源石
+                    sanity: 100,        // 當前理智
+                    maxSanity: 100,     // 最大理智
+                    operatorCenter: 'default.png'  // 看板角色（之後會改成可選）
+                };
+                localStorage.setItem(key, JSON.stringify(player));
+            }
+
+            return player;
+        }
         // 顯示訊息（綠色成功 / 紅色錯誤）
         function showMessage(text, isError = false) {
             message.style.color = isError ? '#ff4444' : '#00ff88';
@@ -238,8 +259,19 @@
                 showMessage('登入成功！即將進入織夢世界...', false);
                 setTimeout(() => {
                     loginContainer.style.display = 'none';
-                    mainPage.style.display = 'block';  // 改成 block，避免 flex 造成的置中問題
-                    playerName.textContent = id;  // 同步名字
+                    mainPage.style.display = 'block';
+
+                    // 讀取玩家資料
+                    const playerData = getPlayerData(id);
+                    playerName.textContent = id;
+
+                    // 更新資源顯示
+                    document.getElementById('lmd').textContent = `龍門幣：${playerData.lmd}`;
+                    document.getElementById('orundum').textContent = `合成玉：${playerData.orundum}`;
+                    document.getElementById('originium').textContent = `至純源石：${playerData.originium}`;
+
+                    // 之後會加看板角色換圖
+                    // document.getElementById('operator-center').src = 'images/operator/' + playerData.operatorCenter;
                 }, 1500);
             } else {
                 // 密碼錯誤
@@ -288,16 +320,23 @@
             passwordInput.value = '';
         }
         // 頁面載入時：如果已經有登入，就直接進主頁
-        window.addEventListener('load', () => {
-            const current = localStorage.getItem('current_user');
-            if (current && getAccounts().accounts[current]) {
-                loginContainer.style.display = 'none';
-                mainPage.style.display = 'flex';
-                mainPage.style.flexDirection = 'column';
-                mainPage.style.justifyContent = 'center';
-                mainPage.style.alignItems = 'center';
-            }
-        });
+        window.addEventListener('load', () => {
+            const current = localStorage.getItem('current_user');
+            if (current && getAccounts().accounts[current]) {
+                loginContainer.style.display = 'none';
+                mainPage.style.display = 'block';  // 改成 block 比較穩
+
+                // 讀取玩家資料並顯示
+                const playerData = getPlayerData(current);
+                document.getElementById('player-name').textContent = current;
+                document.getElementById('lmd').textContent = `龍門幣：${playerData.lmd}`;
+                document.getElementById('orundum').textContent = `合成玉：${playerData.orundum}`;
+                document.getElementById('originium').textContent = `至純源石：${playerData.originium}`;
+
+                // 之後加看板角色
+                // document.getElementById('operator-center').src = 'images/operator/' + playerData.operatorCenter;
+            }
+        });
 
         // 預覽模式（同之前）
         document.getElementById('preview-btn').addEventListener('click', (e) => {
