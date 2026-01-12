@@ -153,6 +153,15 @@
             </button>
         </div>
 
+        <!-- 施工中提示（全畫面覆蓋，點擊關閉） -->
+        <div id="under-construction" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:6; color:white; display:flex; justify-content:center; align-items:center; flex-direction:column;">
+            <h2>功能施工中</h2>
+            <p style="margin:20px 0; font-size:1.3rem;">博士，請稍等片刻～</p>
+            <button onclick="document.getElementById('under-construction').style.display='none';" style="padding:15px 40px; font-size:1.2rem; background:#00d4ff; border:none; border-radius:10px; color:black; cursor:pointer;">
+            返回主頁
+            </button>
+        </div>
+
         <div class="main-container">
             <!-- 左側 -->
             <div class="left-panel">
@@ -353,17 +362,35 @@
             e.stopPropagation();
             document.body.classList.add('preview-mode');
         });
-
         document.addEventListener('click', (e) => {
             if (document.body.classList.contains('preview-mode') && e.target.id !== 'preview-btn') {
                 document.body.classList.remove('preview-mode');
             }
         });
+
+        // 所有「施工中」按鈕的共同處理
+        function showConstruction() {
+            document.getElementById('under-construction').style.display = 'flex';
+        }
+        // 監聽所有右邊按鈕（除了終端先留著）
+        const buttons = document.querySelectorAll('.right-panel button:not(#terminal-btn)');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', showConstruction);
+        });
+        // 終端按鈕（單獨處理，之後會做關卡頁面）
+        document.getElementById('terminal-btn').addEventListener('click', () => {
+            showConstruction();  // 暫時也顯示施工中
+        });
+        // 左邊的「好友」「主頁編輯」也加（公告/郵件先不管）
+        const leftButtons = document.querySelectorAll('.bottom-buttons button:not(#preview-btn)');
+        leftButtons.forEach(btn => {
+            btn.addEventListener('click', showConstruction);
+        });
+
         // 開啟設定頁面（點擊「設定」按鈕）
         document.querySelector('.top-buttons button:nth-child(1)').addEventListener('click', () => {
             document.getElementById('settings-page').style.display = 'flex';
         });
-
         // 登出按鈕
         document.getElementById('logout-btn').addEventListener('click', () => {
             if (confirm('確定要登出嗎？')) {
