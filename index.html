@@ -142,52 +142,25 @@
     <!-- 主頁面 -->
     <div id="main-page">
         <img id="operator-center" src="images/operator/default.png" alt="看板角色">
-        <!-- 設定頁面（先隱藏） -->
-        <div id="settings-page" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:5; color:white; display:flex; justify-content:center; align-items:center; flex-direction:column;">
-            <h2>設定</h2>
-            <button id="logout-btn" style="margin-top:30px; padding:15px 40px; font-size:1.4rem; background:#ff4444; border:none; border-radius:10px; color:white; cursor:pointer;">
-                帳號登出
-            </button>
-            <button onclick="document.getElementById('settings-page').style.display='none';" style="margin-top:20px; padding:10px 20px; background:rgba(255,255,255,0.2); border:none; border-radius:8px; color:white;">
-                返回主頁
-            </button>
-        </div>
-
-        <!-- 施工中提示（全畫面覆蓋，點擊關閉） -->
-        <div id="under-construction" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:6; color:white; display:flex; justify-content:center; align-items:center; flex-direction:column;">
-            <h2>功能施工中</h2>
-            <p style="margin:20px 0; font-size:1.3rem;">博士，請稍等片刻～</p>
-            <button onclick="document.getElementById('under-construction').style.display='none';" style="padding:15px 40px; font-size:1.2rem; background:#00d4ff; border:none; border-radius:10px; color:black; cursor:pointer;">
+    <!-- 設定頁面（先隱藏） -->
+    <div id="settings-page" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:5; color:white; display:flex; justify-content:center; align-items:center; flex-direction:column;">
+        <h2>設定</h2>
+        <button id="logout-btn" style="margin-top:30px; padding:15px 40px; font-size:1.4rem; background:#ff4444; border:none; border-radius:10px; color:white; cursor:pointer;">
+            帳號登出
+        </button>
+        <button onclick="document.getElementById('settings-page').style.display='none';" style="margin-top:20px; padding:10px 20px; background:rgba(255,255,255,0.2); border:none; border-radius:8px; color:white;">
             返回主頁
-            </button>
-        </div>
+        </button>
+    </div>
 
-        <!-- 幹員列表頁面（先隱藏） -->
-        <div id="operators-page" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:4; overflow-y:auto; color:white;">
-            <div style="padding:20px; max-width:1200px; margin:0 auto;">
-                <!-- 左上返回箭頭 -->
-                <button id="back-to-main" style="position:fixed; top:20px; left:20px; background:none; border:none; font-size:2.5rem; color:#00ffff; cursor:pointer; z-index:10;">← 返回主頁</button>
-
-                <!-- 右邊職業篩選 -->
-                <div id="class-filter" style="position:fixed; top:20px; right:20px; display:flex; flex-direction:column; gap:10px; z-index:5;">
-                    <button class="class-btn" data-class="all" style="width:60px; height:60px; background:rgba(255,255,255,0.2); border:none; border-radius:8px; cursor:pointer;">ALL</button>
-                    <!-- 其他8個職業圖標位置，之後替換 src -->
-                    <button class="class-btn" data-class="pioneer"><img src="images/classes/pioneer.png" alt="先鋒" style="width:100%; height:100%; object-fit:contain;"></button>
-                    <button class="class-btn" data-class="guard"><img src="images/classes/guard.png" alt="近衛" style="width:100%; height:100%; object-fit:contain;"></button>
-                    <button class="class-btn" data-class="defender"><img src="images/classes/defender.png" alt="重裝" style="width:100%; height:100%; object-fit:contain;"></button>
-                    <button class="class-btn" data-class="sniper"><img src="images/classes/sniper.png" alt="狙擊" style="width:100%; height:100%; object-fit:contain;"></button>
-                    <button class="class-btn" data-class="caster"><img src="images/classes/caster.png" alt="術士" style="width:100%; height:100%; object-fit:contain;"></button>
-                    <button class="class-btn" data-class="medic"><img src="images/classes/medic.png" alt="醫療" style="width:100%; height:100%; object-fit:contain;"></button>
-                    <button class="class-btn" data-class="supporter"><img src="images/classes/supporter.png" alt="輔助" style="width:100%; height:100%; object-fit:contain;"></button>
-                    <button class="class-btn" data-class="special"><img src="images/classes/special.png" alt="特種" style="width:100%; height:100%; object-fit:contain;"></button>
-                </div>
-
-                <!-- 幹員列表主內容（兩橫排） -->
-                <div id="operators-grid" style="display:grid; grid-template-columns:repeat(8, 1fr); gap:15px; margin-top:80px;">
-                    <!-- 這裡之後用 JS 動態生成幹員卡片 -->
-                </div>
-            </div>
-        </div>
+    <!-- 施工中提示（全畫面覆蓋，點擊關閉） -->
+    <div id="under-construction" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:6; color:white; display:flex; justify-content:center; align-items:center; flex-direction:column;">
+        <h2>功能施工中</h2>
+        <p style="margin:20px 0; font-size:1.3rem;">博士，請稍等片刻～</p>
+        <button onclick="document.getElementById('under-construction').style.display='none';" style="padding:15px 40px; font-size:1.2rem; background:#00d4ff; border:none; border-radius:10px; color:black; cursor:pointer;">
+        返回主頁
+        </button>
+    </div>
 
         <div class="main-container">
             <!-- 左側 -->
@@ -240,22 +213,68 @@
         </div>
     </div>
 
+    <!-- 幹員列表頁面（先隱藏） -->
+    <div id="operators-page" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:4; color:white; overflow-y:auto;">
+        <div style="padding:20px; max-width:1400px; margin:0 auto; position:relative;">
+            <!-- 左上角：回主頁箭頭 -->
+            <button id="back-to-main" style="position:absolute; top:20px; left:20px; background:transparent; border:none; font-size:2.5rem; color:#00ffff; cursor:pointer;">
+                ←
+            </button>
+            <!-- 右邊：職業篩選列（固定在右側） -->
+            <div style="position:fixed; right:20px; top:20px; bottom:20px; display:flex; flex-direction:column; gap:10px; overflow-y:auto; z-index:5;">
+                <button class="class-filter" data-class="all" style="padding:8px; background:rgba(255,255,255,0.2); border:none; border-radius:8px; color:white; font-size:1rem; cursor:pointer;">
+                    ALL
+                </button>
+                <button class="class-filter" data-class="pioneer">
+                    <img src="images/classes/pioneer.png" alt="先鋒" style="width:50px; height:50px; object-fit:contain;">
+                </button>
+                <button class="class-filter" data-class="guard">
+                    <img src="images/classes/guard.png" alt="近衛" style="width:50px; height:50px; object-fit:contain;">
+                </button>
+                <button class="class-filter" data-class="defender">
+                    <img src="images/classes/defender.png" alt="重裝" style="width:50px; height:50px; object-fit:contain;">
+                </button>
+                <button class="class-filter" data-class="sniper">
+                    <img src="images/classes/sniper.png" alt="狙擊" style="width:50px; height:50px; object-fit:contain;">
+                </button>
+                <button class="class-filter" data-class="caster">
+                    <img src="images/classes/caster.png" alt="術士" style="width:50px; height:50px; object-fit:contain;">
+                </button>
+                <button class="class-filter" data-class="medic">
+                    <img src="images/classes/medic.png" alt="醫療" style="width:50px; height:50px; object-fit:contain;">
+                </button>
+                <button class="class-filter" data-class="supporter">
+                    <img src="images/classes/supporter.png" alt="輔助" style="width:50px; height:50px; object-fit:contain;">
+                </button>
+                <button class="class-filter" data-class="special">
+                    <img src="images/classes/special.png" alt="特種" style="width:50px; height:50px; object-fit:contain;">
+                </button>
+            </div>
+            <!-- 幹員列表區域（之後放兩排圖標） -->
+            <div id="operators-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:20px; padding:80px 20px 20px 20px;">
+                <!-- 這裡之後會用 JS 動態生成幹員卡片 -->
+                <p style="grid-column:1 / -1; text-align:center; font-size:1.5rem; opacity:0.7;">
+                    （幹員列表施工中，很快就會有角色出現～）
+                </p>
+            </div>
+        </div>
+    </div>
+
     <script>
         // 取得元素
-        const loginContainer = document.getElementById('login-container');
-        const mainPage = document.getElementById('main-page');
-        const message = document.getElementById('message');
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-        const playerName = document.getElementById('player-name');
-        // 讀取或初始化所有帳號資料
-        function getAccounts() {
-            const data = localStorage.getItem('zhimeng_accounts');
-            return data ? JSON.parse(data) : { accounts: {} };
-        }
-        function saveAccounts(data) {
-            localStorage.setItem('zhimeng_accounts', JSON.stringify(data));
-        }
+        const loginContainer = document.getElementById('login-container');
+        const mainPage = document.getElementById('main-page');
+        const message = document.getElementById('message');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        // 讀取或初始化所有帳號資料
+        function getAccounts() {
+            const data = localStorage.getItem('zhimeng_accounts');
+            return data ? JSON.parse(data) : { accounts: {} };
+        }
+        function saveAccounts(data) {
+            localStorage.setItem('zhimeng_accounts', JSON.stringify(data));
+        }
         // 讀取/初始化玩家個人資料（資源等）
         function getPlayerData(id) {
             const key = 'player_data_' + id;
@@ -401,7 +420,7 @@
             document.getElementById('under-construction').style.display = 'flex';
         }
         // 監聽所有右邊按鈕（除了終端先留著）
-        const buttons = document.querySelectorAll('.right-panel button:not(#terminal-btn)');
+        const buttons = document.querySelectorAll('.right-panel button:not(#terminal-btn):not(#back-to-main)');
         buttons.forEach(btn => {
             btn.addEventListener('click', showConstruction);
         });
@@ -415,108 +434,16 @@
             btn.addEventListener('click', showConstruction);
         });
 
-        // 開啟幹員頁面（點擊主頁的「幹員」按鈕）
+        // 開啟幹員列表頁面（點擊主頁的「幹員」按鈕）
         document.querySelector('.button-row button:nth-child(2)').addEventListener('click', () => {
             document.getElementById('main-page').style.display = 'none';
             document.getElementById('operators-page').style.display = 'block';
-            renderOperators();  // 強制生成列表
         });
-        // 返回主頁（點擊左上箭頭）
-        document.getElementById('back-to-main').addEventListener('click', () => {
-            document.getElementById('operators-page').style.display = 'none';
-            document.getElementById('main-page').style.display = 'block';
-        });
-        // 假幹員資料（之後會從 player_data 讀真實擁有的）
-        const fakeOperators = [
-            { name: "小暖爐", rarity: 5, level: 50, class: "pioneer", portrait: "littleheater_portrait.png", icon: "littleheater_icon.png" },
-            { name: "錦", rarity: 3, level: 80, class: "sniper", portrait: "jin_portrait.png", icon: "jin_icon.png" },
-            { name: "繁恩", rarity: 3, level: 30, class: "sniper", portrait: "vann_portrait.png", icon: "vann_icon.png" },
-            { name: "刻離曦", rarity: 3, level: 40, class: "caster", portrait: "chrissy_portrait.png", icon: "chrissy_icon.png" },
-            // 你可以加更多測試用
-        ];
-
-        // 生成幹員列表
-        function renderOperators() {
-            console.log("開始生成幹員列表！有 " + fakeOperators.length + " 個幹員");  // 加這行
-            const grid = document.getElementById('operators-grid');
-            grid.innerHTML = ''; // 清空
-
-            fakeOperators.forEach(op => {
-                const card = document.createElement('div');
-                card.style.position = 'relative';
-                card.style.width = '100%';
-                card.style.aspectRatio = '1 / 1'; // 正方形
-                card.style.background = 'rgba(255,255,255,0.1)';
-                card.style.borderRadius = '10px';
-                card.style.overflow = 'hidden';
-                card.style.cursor = 'pointer';
-
-                // 職業圖標（左上）
-                const classIcon = document.createElement('img');
-                classIcon.src = `images/classes/${op.class}.png`;
-                classIcon.style.position = 'absolute';
-                classIcon.style.top = '5px';
-                classIcon.style.left = '5px';
-                classIcon.style.width = '30px';
-                classIcon.style.height = '30px';
-                card.appendChild(classIcon);
-
-                // 稀有度星星（正上方）
-                const rarityDiv = document.createElement('div');
-                rarityDiv.style.position = 'absolute';
-                rarityDiv.style.top = '5px';
-                rarityDiv.style.left = '50%';
-                rarityDiv.style.transform = 'translateX(-50%)';
-                rarityDiv.textContent = '★'.repeat(op.rarity);
-                rarityDiv.style.color = '#ffdd00';
-                rarityDiv.style.fontSize = '1.2rem';
-                card.appendChild(rarityDiv);
-
-                // 頭像（中間大圖）
-                const portrait = document.createElement('img');
-                portrait.src = `images/portraits/${op.portrait}`;
-                portrait.style.width = '100%';
-                portrait.style.height = '100%';
-                portrait.style.objectFit = 'cover';
-                card.appendChild(portrait);
-
-                // 等級（左下）
-                const level = document.createElement('div');
-                level.textContent = `Lv.${op.level}`;
-                level.style.position = 'absolute';
-                level.style.bottom = '5px';
-                level.style.left = '5px';
-                level.style.background = 'rgba(0,0,0,0.7)';
-                level.style.padding = '2px 6px';
-                level.style.borderRadius = '4px';
-                level.style.fontSize = '0.9rem';
-                card.appendChild(level);
-
-                // 名字（右下）
-                const name = document.createElement('div');
-                name.textContent = op.name;
-                name.style.position = 'absolute';
-                name.style.bottom = '5px';
-                name.style.right = '5px';
-                name.style.background = 'rgba(0,0,0,0.7)';
-                name.style.padding = '2px 6px';
-                name.style.borderRadius = '4px';
-                name.style.fontSize = '0.9rem';
-                card.appendChild(name);
-
-                grid.appendChild(card);
-            });
-        }
-        // 當幹員頁面顯示時生成列表
-        function openOperatorsPage() {
-            document.getElementById('main-page').style.display = 'none';
-            document.getElementById('operators-page').style.display = 'block';
-            renderOperators();  // 立即生成
-        }
-        // 點擊「幹員」按鈕
-        document.querySelector('.button-row button:nth-child(2)').addEventListener('click', openOperatorsPage);
-        // 返回主頁
-        document.getElementById('back-to-main').addEventListener('click', () => {
+        // 回主頁箭頭
+        document.getElementById('back-to-main').addEventListener('click', (e) => {
+            e.preventDefault();   // 阻止任何預設行為
+            e.stopPropagation();  // 阻止事件往上冒泡，避免觸發其他監聽
+            console.log('返回箭頭被點擊了，應該直接回主頁');  // 加這行 debug
             document.getElementById('operators-page').style.display = 'none';
             document.getElementById('main-page').style.display = 'block';
         });
