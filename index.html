@@ -243,7 +243,7 @@
                 </button>
             </div>
             <!-- 幹員列表區域（之後放兩排圖標） -->
-            <div id="operators-grid" style="display:grid; grid-template-rows:repeat(2, minmax(180px, 1fr)); grid-auto-flow:row; grid-auto-flow:column; gap:0px 10px; padding:100px 20px 20px 20px; justify-content:flex-start;">
+            <div id="operators-grid" style="display:grid; grid-template-rows:repeat(2, minmax(170px, 1fr)); grid-auto-flow:row; grid-auto-flow:column; gap:15px 15px; padding:100px 20px 20px 20px; justify-content:flex-start;">
                 <!-- 這裡之後會用 JS 動態生成幹員卡片 -->
                 <p style="grid-column:1 / -1; text-align:center; font-size:1.5rem; opacity:0.7;">
                     （幹員列表施工中，很快就會有角色出現～）
@@ -454,7 +454,6 @@
 
                 return 0;
             });
-
             operators.forEach(op => {
                 const card = document.createElement('div');
                 card.style.position = 'relative';
@@ -520,10 +519,35 @@
                 classIcon.style.height = '40px';
                 classIcon.style.objectFit = 'contain';
                 card.appendChild(classIcon);
+                card.setAttribute('data-class', op.class);  // 讓每個卡片記住自己的職業
 
                 grid.appendChild(card);
             });
+            // 預設點擊 ALL
+            document.querySelector('.class-filter[data-class="all"]').click();
         }
+        // 職業篩選功能
+        document.querySelectorAll('.class-filter').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const selectedClass = btn.getAttribute('data-class');  // all, pioneer, guard...
+
+                // 移除所有按鈕的「已選中」樣式
+                document.querySelectorAll('.class-filter').forEach(b => b.style.background = 'rgba(255,255,255,0.2)');
+
+                // 給目前點的按鈕加亮（視覺反饋）
+                btn.style.background = 'rgba(0,255,255,0.5)';
+
+                // 過濾幹員卡片
+                document.querySelectorAll('#operators-grid > div').forEach(card => {
+                    // 每個卡片都有 data-class 屬性（我們在生成時加）
+                    if (selectedClass === 'all' || card.getAttribute('data-class') === selectedClass) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
 
         // 開啟設定頁面（點擊「設定」按鈕）
         document.querySelector('.top-buttons button:nth-child(1)').addEventListener('click', () => {
