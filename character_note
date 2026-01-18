@@ -1,0 +1,14 @@
+1. 治療量 (Healing Amount)
+這通常指的是最終回復的生命值數值。
+Healing Amount: 最通用的說法，指具體的治療數值（如：Heal amount increased by 500）。
+Healing Output: 指角色「輸出」的總治療能力，常用於數據統計頁面。
+Healing Received: 指該目標「受到」的治療量。
+Potency: 在一些 RPG（如《FF14》）中，用來表示技能的基礎治療強度，不直接等於最終血量數值。 
+
+角色對應這一塊
+小暖爐=曉歌
+錦=梅蘭莎
+刻璃曦=炎熔
+繁恩=空爆
+哈爐=蘇蘇洛
+歸燕=能天使
