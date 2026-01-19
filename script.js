@@ -96,7 +96,7 @@ const operators = [
     {
         name: "錦",
         portrait: "images/portraits/jin_portrait.png",
-        fullPortrait: "images/operator/redux.png",  // 全身立繪（詳細頁用）
+        fullPortrait: "images/operator/jin.png",  // 全身立繪（詳細頁用）
         level: 1,
         maxLevel: 40, // 當前階段上限（會隨精英化變）
         elite: 0,    // 當前精英化階段 (0,1)
