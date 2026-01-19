@@ -10,6 +10,7 @@ const operators = [
         elite: 0,                                               // 當前精英化階段 (0,1,2)
         rarity: 5,
         class: "pioneer",
+        subclass: "情報官",
         serial_number: 1,
         portraitAlt: "小暖爐頭像",
         // 基礎數值 + 成長率（用來計算當前數值）
@@ -23,7 +24,8 @@ const operators = [
             blockCount: 1,  //阻擋
             attackInterval: 1.0,  // 攻速(秒)
             position: "近戰位",  //站位
-            trust: 0  //信賴
+            trust: 0,  //信賴
+            label: ["費用回復", "快速復活"]  //標籤
         },
         growthRates: {
             hp: [7.5, 5, 4.4],     // [精英0, 精英1, 精英2] 每級成長
@@ -77,12 +79,12 @@ const operators = [
         ],
         // 潛能（6級）
         potential: [
-            "無效果",
-            "部署費用-1",
-            "再部署時間-4秒",
-            "攻擊速度+5",
-            "天賦效果增強",
-            "部署費用-1"
+            {potential: 1, descriptionTemplate: "無效果"}, //當前潛能數, 對應解鎖效果
+            {potential: 2, descriptionTemplate: "部署費用-1"},
+            {potential: 3, descriptionTemplate: "再部署時間-4秒"},
+            {potential: 4, descriptionTemplate: "攻擊速度+5"},
+            {potential: 5, descriptionTemplate: "天賦效果增強"},
+            {potential: 6, descriptionTemplate: "部署費用-1"},
         ],
         // 精英化階段
         eliteStages: [  //精英化階段,等級上限,技能等級上限,費用增加值,解鎖技能,解鎖天賦
@@ -100,6 +102,7 @@ const operators = [
         elite: 0,    // 當前精英化階段 (0,1)
         rarity: 3,
         class: "guard",
+        subclass: "無畏者",
         serial_number: 2,
         portraitAlt: "錦頭像",
         // 基礎數值 + 成長率（用來計算當前數值）
@@ -114,6 +117,7 @@ const operators = [
             attackInterval: 1.5,  // 攻速(秒)
             position: "近戰位",  //站位
             trust: 0, //信賴
+            label: ["輸出", "生存"]  //標籤
         },
         growthRates: {
             hp: [15.3, 13.9],     // [精英0, 精英1] 每級成長
@@ -154,12 +158,12 @@ const operators = [
         ],
         // 潛能（6級）
         potential: [
-            "無效果",
-            "部署費用-1",
-            "再部署時間-4秒",
-            "攻擊力+25",
-            "再部署時間-6秒",
-            "部署費用-1"
+            {potential: 1, descriptionTemplate: "無效果"}, //當前潛能數, 對應解鎖效果
+            {potential: 2, descriptionTemplate: "部署費用-1"},
+            {potential: 3, descriptionTemplate: "再部署時間-4秒"},
+            {potential: 4, descriptionTemplate: "攻擊力+25"},
+            {potential: 5, descriptionTemplate: "再部署時間-6秒"},
+            {potential: 6, descriptionTemplate: "部署費用-1"},
         ],
         // 精英化階段
         eliteStages: [  //精英化階段,等級上限,技能等級上限,費用增加值,解鎖技能,解鎖天賦
@@ -177,6 +181,7 @@ const operators = [
         elite: 0,    // 當前精英化階段 (0,1)
         rarity: 3,
         class: "caster",
+        subclass: "擴散術士",
         serial_number: 3,
         portraitAlt: "刻璃曦頭像",
         // 基礎數值 + 成長率（用來計算當前數值）
@@ -190,7 +195,8 @@ const operators = [
             blockCount: 1,  //阻擋
             attackInterval: 2.9,  // 攻速(秒)
             position: "遠程位",  //站位
-            trust: 0  //信賴
+            trust: 0,  //信賴
+            label: ["群攻"] //標籤
         },
         growthRates: {
             hp: [6.1, 4.9],     // [精英0, 精英1, 精英2] 每級成長
@@ -230,12 +236,12 @@ const operators = [
         ],
         // 潛能（6級）
         potential: [
-            "無效果",
-            "部署費用-1",
-            "再部署時間-4秒",
-            "攻擊速度+8",
-            "天賦效果增強",
-            "部署費用-1"
+            {potential: 1, descriptionTemplate: "無效果"}, //當前潛能數, 對應解鎖效果
+            {potential: 2, descriptionTemplate: "部署費用-1"},
+            {potential: 3, descriptionTemplate: "再部署時間-4秒"},
+            {potential: 4, descriptionTemplate: "攻擊速度+8"},
+            {potential: 5, descriptionTemplate: "天賦效果增強"},
+            {potential: 6, descriptionTemplate: "部署費用-1"},
         ],
         // 精英化階段
         eliteStages: [  //精英化階段,等級上限,技能等級上限,費用增加值,解鎖技能,解鎖天賦
@@ -252,6 +258,7 @@ const operators = [
         elite: 0,    // 當前精英化階段 (0,1)
         rarity: 3,
         class: "sniper",
+        subclass: "炮手",
         serial_number: 4,
         portraitAlt: "繁恩頭像",
         // 基礎數值 + 成長率（用來計算當前數值）
@@ -265,7 +272,8 @@ const operators = [
             blockCount: 1,  //阻擋
             attackInterval: 2.8,  // 攻速(秒)
             position: "遠程位",  //站位
-            trust: 0  //信賴
+            trust: 0 , //信賴
+            label: ["群攻"] //標籤
         },
         growthRates: {
             hp: [4.7, 4.3],     // [精英0, 精英1, 精英2] 每級成長
@@ -305,12 +313,12 @@ const operators = [
         ],
         // 潛能（6級）
         potential: [
-            "無效果",
-            "部署費用-1",
-            "再部署時間-4秒",
-            "攻擊力+27",
-            "再部署時間-6秒",
-            "部署費用-1"
+            {potential: 1, descriptionTemplate: "無效果"}, //當前潛能數, 對應解鎖效果
+            {potential: 2, descriptionTemplate: "部署費用-1"},
+            {potential: 3, descriptionTemplate: "再部署時間-4秒"},
+            {potential: 4, descriptionTemplate: "攻擊力+27"},
+            {potential: 5, descriptionTemplate: "再部署時間-6秒"},
+            {potential: 6, descriptionTemplate: "部署費用-1"},
         ],
         // 精英化階段
         eliteStages: [  //精英化階段,等級上限,技能等級上限,費用增加值,解鎖技能,解鎖天賦
@@ -327,6 +335,7 @@ const operators = [
         elite: 0,    // 當前精英化階段 (0,1)
         rarity: 4,
         class: "medic",
+        subclass: "醫師",
         serial_number: 5,
         portraitAlt: "哈爐頭像",
         // 基礎數值 + 成長率（用來計算當前數值）
@@ -340,7 +349,8 @@ const operators = [
             blockCount: 1,  //阻擋
             attackInterval: 2.85,  // 攻速(秒)
             position: "遠程位",  //站位
-            trust: 0  //信賴
+            trust: 0,  //信賴
+            label: ["治療"] //標籤
         },
         growthRates: {
             hp: [6.1, 3, 2.5],     // [精英0, 精英1, 精英2] 每級成長
@@ -394,12 +404,12 @@ const operators = [
         ],
         // 潛能（6級）
         potential: [
-            "無效果",
-            "部署費用-1",
-            "再部署時間-4秒",
-            "攻擊力+23",
-            "天賦效果增強",
-            "部署費用-1"
+            {potential: 1, descriptionTemplate: "無效果"}, //當前潛能數, 對應解鎖效果
+            {potential: 2, descriptionTemplate: "部署費用-1"},
+            {potential: 3, descriptionTemplate: "再部署時間-4秒"},
+            {potential: 4, descriptionTemplate: "攻擊力+23"},
+            {potential: 5, descriptionTemplate: "天賦效果增強"},
+            {potential: 6, descriptionTemplate: "部署費用-1"},
         ],
         // 精英化階段
         eliteStages: [  //精英化階段,等級上限,技能等級上限,費用增加值,解鎖技能,解鎖天賦
@@ -417,6 +427,7 @@ const operators = [
         elite: 0,    // 當前精英化階段 (0,1)
         rarity: 6,
         class: "sniper",
+        subclass: "速射手",
         serial_number: 6,
         portraitAlt: "歸燕頭像",
         // 基礎數值 + 成長率（用來計算當前數值）
@@ -430,7 +441,8 @@ const operators = [
             blockCount: 1,  //阻擋
             attackInterval: 1.0,  // 攻速(秒)
             position: "遠程位",  //站位
-            trust: 0  //信賴
+            trust: 0,  //信賴
+            label: ["輸出"] //標籤
         },
         growthRates: {
             hp: [6.2, 4.1, 3.8],     // [精英0, 精英1, 精英2] 每級成長
@@ -505,12 +517,12 @@ const operators = [
         ],
         // 潛能（6級）
         potential: [
-            "無效果",
-            "部署費用-1",
-            "第一天賦效果增強",
-            "攻擊力+27",
-            "部署費用-1",
-            "第二天賦效果增強",
+            {potential: 1, descriptionTemplate: "無效果"}, //當前潛能數, 對應解鎖效果
+            {potential: 2, descriptionTemplate: "部署費用-1"},
+            {potential: 3, descriptionTemplate: "第一天賦效果增強"},
+            {potential: 4, descriptionTemplate: "攻擊力+27"},
+            {potential: 5, descriptionTemplate: "部署費用-1"},
+            {potential: 6, descriptionTemplate: "第二天賦效果增強"},
         ],
         // 精英化階段
         eliteStages: [  //精英化階段,等級上限,技能等級上限,費用增加值,解鎖技能,解鎖天賦
