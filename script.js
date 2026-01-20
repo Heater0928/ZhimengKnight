@@ -10,7 +10,6 @@ const operators = [
         elite: 0,                                               // 當前精英化階段 (0,1,2)
         rarity: 5,
         class: "pioneer",
-        subclass: "情報官",
         serial_number: 1,
         portraitAlt: "小暖爐頭像",
         // 基礎數值 + 成長率（用來計算當前數值）
@@ -33,6 +32,13 @@ const operators = [
             def: [1.3, 1, 0.5],
             magicResist: 0
         },
+        // 子職業
+        subclass: [
+            {
+                name: "情報官",
+                description: "再部署時間減少，可使用遠端攻擊",  //子職業特性描述
+            }
+        ],
         // 技能（最多3個）
         skills: [
             {
@@ -102,7 +108,6 @@ const operators = [
         elite: 0,    // 當前精英化階段 (0,1)
         rarity: 3,
         class: "guard",
-        subclass: "無畏者",
         serial_number: 2,
         portraitAlt: "錦頭像",
         // 基礎數值 + 成長率（用來計算當前數值）
@@ -125,6 +130,13 @@ const operators = [
             def: [0.9, 0.7],
             magicResist: 0
         },
+        // 子職業
+        subclass: [
+            {
+                name: "無畏者",
+                description: "能夠阻擋一個敵人",  //子職業特性描述
+            }
+        ],
         // 技能（最多3個）
         skills: [
             {
@@ -181,7 +193,6 @@ const operators = [
         elite: 0,    // 當前精英化階段 (0,1)
         rarity: 3,
         class: "caster",
-        subclass: "擴散術士",
         serial_number: 3,
         portraitAlt: "刻璃曦頭像",
         // 基礎數值 + 成長率（用來計算當前數值）
@@ -204,6 +215,13 @@ const operators = [
             def: [0.7, 0.5],
             magicResist: [0, 0.1],
         },
+        // 子職業
+        subclass: [
+            {
+                name: "擴散術士",
+                description: "攻擊造成群體法術傷害",  //子職業特性描述
+            }
+        ],
         // 技能（最多3個）
         skills: [
             {
@@ -258,7 +276,6 @@ const operators = [
         elite: 0,    // 當前精英化階段 (0,1)
         rarity: 3,
         class: "sniper",
-        subclass: "炮手",
         serial_number: 4,
         portraitAlt: "繁恩頭像",
         // 基礎數值 + 成長率（用來計算當前數值）
@@ -281,6 +298,13 @@ const operators = [
             def: [0.3, 0.4],
             magicResist: 0
         },
+        // 子職業
+        subclass: [
+            {
+                name: "炮手",
+                description: "攻擊造成群體物理傷害",  //子職業特性描述
+            }
+        ],
         // 技能（最多3個）
         skills: [
             {
@@ -335,7 +359,6 @@ const operators = [
         elite: 0,    // 當前精英化階段 (0,1)
         rarity: 4,
         class: "medic",
-        subclass: "醫師",
         serial_number: 5,
         portraitAlt: "哈爐頭像",
         // 基礎數值 + 成長率（用來計算當前數值）
@@ -358,6 +381,13 @@ const operators = [
             def: [0.5, 0.3, 0.4],
             magicResist: 0
         },
+        // 子職業
+        subclass: [
+            {
+                name: "醫師",
+                description: "恢復友方單位生命",  //子職業特性描述
+            }
+        ],
         // 技能（最多3個）
         skills: [
             {
@@ -427,7 +457,6 @@ const operators = [
         elite: 0,    // 當前精英化階段 (0,1)
         rarity: 6,
         class: "sniper",
-        subclass: "速射手",
         serial_number: 6,
         portraitAlt: "歸燕頭像",
         // 基礎數值 + 成長率（用來計算當前數值）
@@ -450,6 +479,13 @@ const operators = [
             def: [0.8, 0.5, 0.3],
             magicResist: 0
         },
+        // 子職業
+        subclass: [
+            {
+                name: "速射手",
+                description: "優先攻擊空中單位",  //子職業特性描述
+            }
+        ],
         // 技能（最多3個）
         skills: [
             {

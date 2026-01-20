@@ -320,12 +320,12 @@
             </div>
 
             <!-- 中間：全身立繪 -->
-            <div style="width:40%; display:flex; justify-content:center; align-items:center;">
+            <div style="width:35%; display:flex; justify-content:center; align-items:center;">
                 <img id="detail-full-portrait" src="" alt="全身立繪" style="max-height:90vh; max-width:100%; object-fit:contain;">
             </div>
 
             <!-- 右側：等級、精英化、潛能、技能、天賦 -->
-            <div style="width:30%; display:flex; flex-direction:column; gap:20px;">
+            <div style="width:35%; display:flex; flex-direction:column; gap:20px;">
 
                 <!-- 等級 -->
                 <div style="background:rgba(255,255,255,0.1); padding:15px; border-radius:8px; text-align:center;">
@@ -356,7 +356,7 @@
                             <img src="" alt="技能3" style="width:100%; height:100%; object-fit:cover;" id="skill-icon-2">
                         </button>
                         <div style="flex:1; text-align:center; align-self:center;">
-                            <strong>技能等級：</strong> <span id="detail-skillLevel">4</span>
+                            <strong>技能等級：</strong> <span id="detail-skillLevel">1</span>
                         </div>
                     </div>
                 </div>
@@ -641,9 +641,9 @@
 
                 // 點擊卡片 → 顯示詳細頁面
                 card.addEventListener('click', () => {
+                    // 填入資料
                     document.getElementById('operators-page').style.display = 'none';
                     document.getElementById('operator-detail-page').style.display = 'flex';
-                    // 填入資料
                     document.getElementById('detail-name').textContent = op.name;
                     document.getElementById('detail-full-portrait').src = op.fullPortrait;
                     document.getElementById('detail-level').textContent = op.level;
@@ -662,17 +662,27 @@
                     document.getElementById('detail-blockCount').textContent = op.baseStats.blockCount;
                     document.getElementById('detail-attackInterval').textContent = op.baseStats.attackInterval;
                     document.getElementById('detail-trust').textContent = op.baseStats.trust;
-
-                    // 技能圖標（先顯示已解鎖的）
-                    op.skills.forEach((skill, index) => {
-                        if (skill) {
-                            document.getElementById(`skill-icon-${index}`).src = skill.icon;
+                    // 新增：重置所有技能圖標為顯示狀態
+                    // 重置並正確顯示技能圖標
+                    for (let i = 0; i < 3; i++) {
+                        const icon = document.getElementById(`skill-icon-${i}`);
+                        if (op.skills[i]) {  // 如果這個 index 有技能
+                            icon.src = op.skills[i].icon;
+                            icon.style.display = 'block';
                         } else {
-                            document.getElementById(`skill-icon-${index}`).style.display = 'none';
+                            icon.src = '';           // 清空
+                            icon.style.display = 'none';
                         }
+                    }
+                    // 技能圖標（先顯示已解鎖的）
+                        op.skills.forEach((skill, index) => {
+                            if (skill) {
+                                document.getElementById(`skill-icon-${index}`).src = skill.icon;
+                            } else {
+                                document.getElementById(`skill-icon-${index}`).style.display = 'none';
+                            }
+                        });
                     });
-                });
-
                 grid.appendChild(card);
             });
             // 預設點擊 ALL
