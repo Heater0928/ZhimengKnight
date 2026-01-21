@@ -276,9 +276,8 @@
     <!-- 幹員詳細頁面（先隱藏） -->
     <div id="operator-detail-page" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:5; color:white; overflow-y:auto;">
         <div style="padding:40px; max-width:1600px; margin:0 auto; position:relative; display:flex; justify-content:space-between; gap:40px;">
-
             <!-- 左側：屬性 + 資訊 -->
-            <div style="width:30%; display:flex; flex-direction:column; gap:20px;">
+            <div style="width:25%; display:flex; flex-direction:column; gap:20px;">
                 <!-- 返回箭頭 -->
                 <button id="back-to-list" style="align-self:flex-start; background:transparent; border:none; font-size:2.5rem; color:#00ffff; cursor:pointer;">
                     ←
@@ -298,12 +297,10 @@
                         <li><strong>攻擊速度：</strong><span id="detail-attackInterval">---</span>秒</li>
                     </ul>
                 </div>
-
                 <!-- 信賴值 -->
                 <div style="background:rgba(255,255,255,0.1); padding:15px; border-radius:8px;">
                     <strong>信賴值：</strong> <span id="detail-trust">0</span>
                 </div>
-
                 <!-- 星星 + 姓名 + 職業 + 站位 + 標籤 -->
                 <div style="display:flex; align-items:center; gap:15px;">
                     <div id="detail-rarity" style="font-size:2rem; color:#ffd700;"></div>
@@ -318,20 +315,16 @@
                     </div>
                 </div>
             </div>
-
             <!-- 中間：全身立繪 -->
-            <div style="width:35%; display:flex; justify-content:center; align-items:center;">
+            <div style="width:45%; display:flex; justify-content:center; align-items:center;">
                 <img id="detail-full-portrait" src="" alt="全身立繪" style="max-height:90vh; max-width:100%; object-fit:contain;">
             </div>
-
             <!-- 右側：等級、精英化、潛能、技能、天賦 -->
-            <div style="width:35%; display:flex; flex-direction:column; gap:20px;">
-
+            <div style="width:30%; display:flex; flex-direction:column; gap:20px;">
                 <!-- 等級 -->
                 <div style="background:rgba(255,255,255,0.1); padding:15px; border-radius:8px; text-align:center;">
                     <strong>等級：</strong> <span id="detail-level">1</span> / <span id="detail-maxLevel">70</span>
                 </div>
-
                 <!-- 精英化 + 潛能 -->
                 <div style="display:flex; gap:15px;">
                     <div style="flex:1; background:rgba(255,255,255,0.1); padding:15px; border-radius:8px; text-align:center;">
@@ -341,7 +334,6 @@
                         <strong>潛能：</strong> <span id="detail-potential">1</span>
                     </div>
                 </div>
-
                 <!-- 技能 -->
                 <div style="background:rgba(255,255,255,0.1); padding:15px; border-radius:8px;">
                     <h3>技能</h3>
@@ -360,11 +352,32 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- 天賦 -->
                 <div style="background:rgba(255,255,255,0.1); padding:15px; border-radius:8px;">
                     <h3>天賦</h3>
                     <div id="detail-talents"></div>
+                </div>
+                <!-- 技能詳細小視窗（先隱藏） -->
+                <div id="skill-detail-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10; color:white;">
+                    <div id="skill-modal-content" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(20,20,30,0.95); padding:30px; border-radius:16px; max-width:600px; width:90%; max-height:80vh; overflow-y:auto; box-shadow:0 0 30px rgba(0,255,255,0.3); display:flex; gap:30px;">
+                        <!-- 左邊：圖標 + 名稱 + 基本資訊 -->
+                        <div style="width:40%; display:flex; flex-direction:column; align-items:center; gap:15px;">
+                            <img id="modal-skill-icon" src="" alt="技能圖標" style="width:120px; height:120px; object-fit:contain; border-radius:12px;">
+                            <h3 id="modal-skill-name" style="margin:0; font-size:1.8rem; text-align:center;"></h3>
+                            <div style="text-align:center; font-size:1rem; opacity:0.9;">
+                                <div><strong>持續時間：</strong><span id="modal-duration"></span></div>
+                                <div><strong>初始能量：</strong><span id="modal-spInitial"></span></div>
+                                <div><strong>能量消耗：</strong><span id="modal-spCost"></span></div>
+                                <div><strong>能量恢復：</strong><span id="modal-spType"></span></div>
+                                <div><strong>啟動方式：</strong><span id="modal-trigger"></span></div>
+                            </div>
+                        </div>
+                        <!-- 右邊：技能描述 -->
+                        <div style="width:60%; font-size:1.1rem; line-height:1.6;">
+                            <h4>技能描述</h4>
+                            <p id="modal-description" style="margin-top:10px;"></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -644,6 +657,10 @@
                     // 填入資料
                     document.getElementById('operators-page').style.display = 'none';
                     document.getElementById('operator-detail-page').style.display = 'flex';
+                    // 先解除舊的事件綁定，避免累積
+                    document.querySelectorAll('.skill-btn').forEach(btn => {
+                        btn.replaceWith(btn.cloneNode(true));  // 克隆按鈕來清空所有事件監聽器
+                    });
                     document.getElementById('detail-name').textContent = op.name;
                     document.getElementById('detail-full-portrait').src = op.fullPortrait;
                     document.getElementById('detail-level').textContent = op.level;
@@ -674,6 +691,43 @@
                             icon.style.display = 'none';
                         }
                     }
+                    // 綁定技能按鈕點擊事件（只綁有技能的）
+                    document.querySelectorAll('.skill-btn').forEach(btn => {
+                        const index = parseInt(btn.getAttribute('data-skill'));
+                        const skill = op.skills[index];
+
+                        if (skill) {
+                            btn.style.display = 'block';  // 確保有技能的顯示
+                            btn.addEventListener('click', (e) => {
+                                e.stopPropagation();
+
+                                // 填小視窗
+                                document.getElementById('modal-skill-icon').src = skill.icon;
+                                document.getElementById('modal-skill-name').textContent = skill.name;
+
+                                const levelData = skill.levels[op.skillLevel - 1] || skill.levels[0];
+
+                                document.getElementById('modal-duration').textContent = levelData.duration;
+                                document.getElementById('modal-spInitial').textContent = levelData.spInitial;
+                                document.getElementById('modal-spCost').textContent = levelData.spCost;
+                                document.getElementById('modal-spType').textContent = levelData.spType;
+                                document.getElementById('modal-trigger').textContent = levelData.trigger;
+
+                                let desc = skill.descriptionTemplate;
+                                Object.keys(levelData).forEach(key => {
+                                    if (typeof levelData[key] !== 'object' && typeof levelData[key] !== 'string') {
+                                        desc = desc.replace(`{${key}}`, levelData[key]);
+                                    }
+                                });
+                                document.getElementById('modal-description').textContent = desc;
+
+                                document.getElementById('skill-detail-modal').style.display = 'block';
+                            });
+                        } else {
+                            btn.style.display = 'none';  // 沒技能的隱藏
+                            // 這裡可以加 onclick 什麼都不做，或留空
+                        }
+                    });
                     // 技能圖標（先顯示已解鎖的）
                         op.skills.forEach((skill, index) => {
                             if (skill) {
@@ -709,6 +763,12 @@
                     }
                 });
             });
+        });
+        // 點擊小視窗空白處關閉
+        document.getElementById('skill-detail-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'skill-detail-modal') {
+                document.getElementById('skill-detail-modal').style.display = 'none';
+            }
         });
         //幹員詳細頁面的退出按鈕
         document.getElementById('back-to-list').addEventListener('click', () => {

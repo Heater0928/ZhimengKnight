@@ -493,13 +493,13 @@ const operators = [
                 icon: "images/skills/redux_skill(1).png",  // 你之後放的技能圖標
                 descriptionTemplate: "下次攻擊變成3連射，每次射擊造成相當於攻擊力{damage_bonus}%的傷害",  //技能描述
                 levels: [  //等級,數值變化,技能持續時間,初始能量,啟動所需能量,能量恢復方式"自動恢復/攻擊恢復/阻擋恢復",技能啟動方式"自動/手動"
-                    { level: 1, damage_bonus: 105, duration: "無", spInitial: 0, spCost: 0, spType: 5, trigger: "自動" },
-                    { level: 2, damage_bonus: 107, duration: "無", spInitial: 0, spCost: 0, spType: 5, trigger: "自動" },
-                    { level: 3, damage_bonus: 109, duration: "無", spInitial: 0, spCost: 0, spType: 5, trigger: "自動" },
-                    { level: 4, damage_bonus: 113, duration: "無", spInitial: 0, spCost: 0, spType: 4, trigger: "自動" },
-                    { level: 5, damage_bonus: 115, duration: "無", spInitial: 0, spCost: 0, spType: 4, trigger: "自動" },
-                    { level: 6, damage_bonus: 117, duration: "無", spInitial: 0, spCost: 0, spType: 4, trigger: "自動" },
-                    { level: 7, damage_bonus: 121, duration: "無", spInitial: 0, spCost: 0, spType: 4, trigger: "自動" }
+                    { level: 1, damage_bonus: 105, duration: "無", spInitial: 0, spCost: 5, spType: "攻擊恢復", trigger: "自動" },
+                    { level: 2, damage_bonus: 107, duration: "無", spInitial: 0, spCost: 5, spType: "攻擊恢復", trigger: "自動" },
+                    { level: 3, damage_bonus: 109, duration: "無", spInitial: 0, spCost: 5, spType: "攻擊恢復", trigger: "自動" },
+                    { level: 4, damage_bonus: 113, duration: "無", spInitial: 0, spCost: 4, spType: "攻擊恢復", trigger: "自動" },
+                    { level: 5, damage_bonus: 115, duration: "無", spInitial: 0, spCost: 4, spType: "攻擊恢復", trigger: "自動" },
+                    { level: 6, damage_bonus: 117, duration: "無", spInitial: 0, spCost: 4, spType: "攻擊恢復", trigger: "自動" },
+                    { level: 7, damage_bonus: 121, duration: "無", spInitial: 0, spCost: 4, spType: "攻擊恢復", trigger: "自動" }
                 ]
             },
             {
@@ -566,6 +566,104 @@ const operators = [
             { elite: 1, maxLevel: 80, skillLevelMax: 7, costBonus: 2, unlockSkill: "掃射模式", unlockTalent: "快速彈匣" },
             { elite: 2, maxLevel: 90, skillLevelMax: 7, costBonus: 0, unlockSkill: "超載模式", unlockTalent: "天使的祝福" }
         ]
-    }
+    },
+    {
+        name: "剪",
+        portrait: "images/portraits/cut_portrait.png", // 頭像圖檔（列表用）
+        fullPortrait: "images/operator/cut.png",       // 全身立繪（詳細頁用）
+        level: 1,                                               // 當前等級
+        maxLevel: 50,                                           // 當前階段上限（會隨精英化變）
+        elite: 0,                                               // 當前精英化階段 (0,1,2)
+        rarity: 5,
+        class: "pioneer",
+        serial_number: 1,
+        portraitAlt: "剪頭像",
+        // 基礎數值 + 成長率（用來計算當前數值）
+        baseStats: {
+            hp: 857,  //生命
+            atk: 236,  //攻擊
+            def: 94,  //防禦
+            magicResist: 0,  //法抗
+            redeployTime: 35,  //再部屬
+            cost: 10,  //費用
+            blockCount: 1,  //阻擋
+            attackInterval: 1.0,  // 攻速(秒)
+            position: "近戰位",  //站位
+            trust: 0,  //信賴
+            label: ["費用回復", "快速復活"]  //標籤
+        },
+        growthRates: {
+            hp: [7.5, 5, 4.4],     // [精英0, 精英1, 精英2] 每級成長
+            atk: [2.3, 1.6, 1.3],
+            def: [1.3, 1, 0.5],
+            magicResist: 0
+        },
+        // 子職業
+        subclass: [
+            {
+                name: "情報官",
+                description: "再部署時間減少，可使用遠端攻擊",  //子職業特性描述
+            }
+        ],
+        // 技能（最多3個）
+        skills: [
+            {
+                name: "觀火",
+                icon: "images/skills/littelheater_skill(1).png",  // 你之後放的技能圖標
+                descriptionTemplate: "部署後攻擊力+{atk_bonus}%，每次攻擊時可獲得1點部署費用",  //技能描述
+                levels: [  //等級,數值變化,技能持續時間,初始能量,啟動所需能量,能量恢復方式"自動恢復/攻擊恢復/阻擋恢復",技能啟動方式"自動/手動"
+                    { level: 1, atk_bonus: 35, duration: 13, spInitial: 0, spCost: 0, spType: "無", trigger: "自動" },
+                    { level: 2, atk_bonus: 40, duration: 13, spInitial: 0, spCost: 0, spType: "無", trigger: "自動" },
+                    { level: 3, atk_bonus: 45, duration: 13, spInitial: 0, spCost: 0, spType: "無", trigger: "自動" },
+                    { level: 4, atk_bonus: 50, duration: 14, spInitial: 0, spCost: 0, spType: "無", trigger: "自動" },
+                    { level: 5, atk_bonus: 55, duration: 15, spInitial: 0, spCost: 0, spType: "無", trigger: "自動" },
+                    { level: 6, atk_bonus: 60, duration: 16, spInitial: 0, spCost: 0, spType: "無", trigger: "自動" },
+                    { level: 7, atk_bonus: 70, duration: 17, spInitial: 0, spCost: 0, spType: "無", trigger: "自動" }
+                ]
+            },
+            {
+                name: "浮光",
+                icon: "images/skills/littelheater_skill(2).png",
+                descriptionTemplate: "攻擊力+{atk_bonus}%，攻擊速度+{aspd_bonus}，自身獲得迷彩，每次攻擊時獲得1點部署費用\n攻擊裝有{ammo}發彈藥，打完後結束（可隨時停止技能）",
+                levels: [
+                    { level: 1, atk_bonus: 10, aspd_bonus: 10, ammo: 13, duration: "無", spInitial: 10, spCost: 34, spType: "自動恢復", trigger: "手動" },
+                    { level: 2, atk_bonus: 13, aspd_bonus: 14, ammo: 13, duration: "無", spInitial: 10, spCost: 33, spType: "自動恢復", trigger: "手動" },
+                    { level: 3, atk_bonus: 16, aspd_bonus: 18, ammo: 13, duration: "無", spInitial: 10, spCost: 32, spType: "自動恢復", trigger: "手動" },
+                    { level: 4, atk_bonus: 19, aspd_bonus: 22, ammo: 14, duration: "無", spInitial: 15, spCost: 31, spType: "自動恢復", trigger: "手動" },
+                    { level: 5, atk_bonus: 22, aspd_bonus: 26, ammo: 14, duration: "無", spInitial: 15, spCost: 30, spType: "自動恢復", trigger: "手動" },
+                    { level: 6, atk_bonus: 25, aspd_bonus: 30, ammo: 14, duration: "無", spInitial: 15, spCost: 29, spType: "自動恢復", trigger: "手動" },
+                    { level: 7, atk_bonus: 28, aspd_bonus: 34, ammo: 15, duration: "無", spInitial: 20, spCost: 28, spType: "自動恢復", trigger: "手動" },
+                ]
+            },
+            null  // 沒有3技能就放 null (如果沒有2技能也不需要放兩個)
+        ],
+        // 天賦
+        talents: [
+            {
+                name: "萬全",
+                description: "未阻擋敵人時攻擊速度+{aspd_bonus}，阻擋敵人時攻擊力+{atk_bonus}%",  //天賦描述
+                unlockElite: 1,  //解鎖天賦所需精英階段
+                levels: [  //精英化階段,數值變化
+                    { elite: 1, aspd_bonus: 6, atk_bonus: 6 },
+                    { elite: 2, aspd_bonus: 12, atk_bonus: 12 }
+                ]
+            }
+        ],
+        // 潛能（6級）
+        potential: [
+            {potential: 1, descriptionTemplate: "無效果"}, //當前潛能數, 對應解鎖效果
+            {potential: 2, descriptionTemplate: "部署費用-1"},
+            {potential: 3, descriptionTemplate: "再部署時間-4秒"},
+            {potential: 4, descriptionTemplate: "攻擊速度+5"},
+            {potential: 5, descriptionTemplate: "天賦效果增強"},
+            {potential: 6, descriptionTemplate: "部署費用-1"},
+        ],
+        // 精英化階段
+        eliteStages: [  //精英化階段,等級上限,技能等級上限,費用增加值,解鎖技能,解鎖天賦
+            { elite: 0, maxLevel: 50, skillLevelMax: 4, costBonus: 0 },
+            { elite: 1, maxLevel: 70, skillLevelMax: 7, costBonus: 2, unlockSkill: "浮光", unlockTalent: "萬全"},
+            { elite: 2, maxLevel: 80, skillLevelMax: 7, costBonus: 0}
+        ]
+    },
     // 之後加新幹員就繼續在這裡加物件
 ];
