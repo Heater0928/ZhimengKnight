@@ -163,7 +163,13 @@
 
     <!-- 主頁面 -->
     <div id="main-page">
-        <img id="operator-center" src="images/operator/default.png" alt="看板角色">
+        <!-- 看板角色（可拖曳縮放） -->
+        <img id="operator-center" 
+             src="images/operator/default.png" 
+             alt="看板角色"
+             style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                    max-height: 70vh; max-width: 45vw; object-fit: contain; z-index: 0; 
+                    cursor: move; user-select: none;">
     <!-- 設定頁面（先隱藏） -->
     <div id="settings-page" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:5; color:white; display:flex; justify-content:center; align-items:center; flex-direction:column;">
         <h2>設定</h2>
@@ -223,6 +229,54 @@
                     <button>倉庫</button>
                 </div>
             </div>
+        </div>
+    <!-- 主頁編輯彈窗 -->
+        <div id="homepage-edit-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:20; justify-content:center; align-items:center;">
+            <div style="background:rgba(20,20,30,0.95); padding:30px; border-radius:16px; max-width:900px; width:90%; max-height:85vh; overflow-y:auto; box-shadow:0 0 40px rgba(0,255,255,0.4);">
+                <h2 style="text-align:center; margin-bottom:20px; color:#00ffff;">主頁編輯 - 背景更換</h2>
+                
+                <div style="margin-bottom:20px; text-align:center;">
+                    <strong>目前背景：</strong> <span id="current-bg-name" style="color:#ffd700;"></span>
+                </div>
+
+                <!-- 背景縮圖網格 -->
+                <div id="bg-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:15px; margin-bottom:25px;">
+                    <!-- JS 會動態生成 -->
+                </div>
+
+                <div style="text-align:center; margin-top:20px;">
+                    <button id="save-bg-btn" style="padding:12px 40px; background:#00d4ff; color:black; border:none; border-radius:8px; font-size:1.1rem; margin-right:15px; cursor:pointer;">
+                        儲存設定
+                    </button>
+                    <button id="cancel-bg-btn" style="padding:12px 40px; background:rgba(255,255,255,0.2); border:none; border-radius:8px; font-size:1.1rem; cursor:pointer;">
+                        取消
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- 看板角色位置調整介面（全螢幕 + 顯示真實背景） -->
+        <div id="operator-edit-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:30;">
+            <img id="edit-background" src="" style="position:fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-1;">
+            
+            <div style="position:absolute; bottom:30px; right:30px; display:flex; flex-direction:column; gap:15px; z-index:10; align-items:flex-end;">
+                <div style="color:#00ffff; font-size:1.1rem;">
+                    縮放大小： <span id="scale-value">1.0</span>x
+                </div>
+                <input type="range" id="scale-slider" 
+                    min="0.3" max="3.0" step="0.05" value="1.0"
+                    style="width:280px; accent-color:#00d4ff;">
+                
+                <div style="display:flex; gap:15px;">
+                    <button id="confirm-position-btn" style="padding:14px 36px; background:#00d4ff; color:black; font-size:1.1rem; border:none; border-radius:8px; cursor:pointer;">
+                        確認位置並儲存
+                    </button>
+                    <button id="cancel-position-btn" style="padding:14px 36px; background:rgba(255,255,255,0.2); border:none; border-radius:8px; color:white; cursor:pointer;">
+                        取消
+                    </button>
+                </div>
+            </div>
+
+            <img id="edit-operator" src="" style="position:absolute; cursor:move; user-select:none; z-index:5; box-shadow:0 0 30px rgba(0,255,255,0.6);">
         </div>
     </div>
 
@@ -513,17 +567,17 @@
             const current = localStorage.getItem('current_user');
             if (current && getAccounts().accounts[current]) {
                 loginContainer.style.display = 'none';
-                mainPage.style.display = 'block';  // 改成 block 比較穩
+                mainPage.style.display = 'block';
 
-                // 讀取玩家資料並顯示
                 const playerData = getPlayerData(current);
                 document.getElementById('player-name').textContent = current;
                 document.getElementById('lmd').textContent = `龍門幣：${playerData.lmd}`;
                 document.getElementById('orundum').textContent = `合成玉：${playerData.orundum}`;
                 document.getElementById('originium').textContent = `至純源石：${playerData.originium}`;
 
-                // 之後加看板角色
-                // document.getElementById('operator-center').src = 'images/operator/' + playerData.operatorCenter;
+                // 【新增】登入後立即套用背景
+                const currentBgId = getCurrentBackground(current);
+                applyBackground(currentBgId);
             }
         });
 
@@ -537,6 +591,17 @@
                 document.body.classList.remove('preview-mode');
             }
         });
+
+        // 找到「主頁編輯」按鈕（bottom-buttons 中的第二個按鈕）
+        const homepageEditBtn = document.querySelector('.bottom-buttons button:nth-child(2)');
+        if (homepageEditBtn) {
+            homepageEditBtn.addEventListener('click', () => {
+                console.log('✅ 主頁編輯按鈕被點擊了！');  // 用來除錯
+                openHomepageEditor();
+            });
+        } else {
+            console.error('❌ 找不到主頁編輯按鈕！');
+        }
 
         // 開啟幹員列表頁面（點擊主頁的「幹員」按鈕）
         document.querySelector('.button-row button:nth-child(2)').addEventListener('click', () => {
@@ -788,6 +853,106 @@
                 loginContainer.style.display = 'flex';
             }
         });
+
+        // 主頁編輯按鈕
+        document.querySelector('.bottom-buttons button:nth-child(2)').addEventListener('click', () => {  // 「主頁編輯」是第二個按鈕
+            openHomepageEditor();
+        });
+        // ==================== 主頁編輯總入口 ====================
+        function openHomepageEditor() {
+            console.log('🚀 openHomepageEditor 函式被呼叫了！');
+            
+            const modal = document.getElementById('homepage-edit-modal');
+            if (!modal) {
+                console.error('❌ 找不到 homepage-edit-modal');
+                return;
+            }
+
+            const grid = document.getElementById('bg-grid');
+            const currentName = document.getElementById('current-bg-name');
+            const currentUser = localStorage.getItem('current_user');
+            const currentBgId = getCurrentBackground(currentUser);
+
+            currentName.textContent = availableBackgrounds.find(b => b.id === currentBgId)?.name || "雨中街頭";
+
+            // 清空並生成背景
+            grid.innerHTML = '';
+            availableBackgrounds.forEach(bg => {
+                const div = document.createElement('div');
+                div.style.cursor = 'pointer';
+                div.style.border = (bg.id === currentBgId) ? '3px solid #00ffff' : '2px solid rgba(255,255,255,0.2)';
+                div.style.borderRadius = '8px';
+                div.style.overflow = 'hidden';
+                div.style.padding = '8px';
+
+                div.innerHTML = `
+                    <img src="images/${bg.filename}" style="width:100%; height:120px; object-fit:cover; border-radius:6px;" alt="${bg.name}">
+                    <div style="text-align:center; margin-top:8px; font-size:0.95rem;">${bg.name}</div>
+                `;
+
+                div.addEventListener('click', () => {
+                    document.querySelectorAll('#bg-grid > div').forEach(d => d.style.border = '2px solid rgba(255,255,255,0.2)');
+                    div.style.border = '3px solid #00ffff';
+                    window.selectedBgId = bg.id;
+                });
+
+                grid.appendChild(div);
+            });
+
+            // 移除舊角色區
+            const oldRole = modal.querySelector('.role-section');
+            if (oldRole) oldRole.remove();
+
+            // 新增角色選擇
+            const roleSection = document.createElement('div');
+            roleSection.className = 'role-section';
+            roleSection.style.marginTop = '35px';
+            roleSection.innerHTML = `<h3 style="color:#00ffff; margin-bottom:15px;">選擇看板角色</h3>`;
+
+            const roleGrid = document.createElement('div');
+            roleGrid.style.display = 'grid';
+            roleGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(110px, 1fr))';
+            roleGrid.style.gap = '12px';
+
+            const currentCenter = getPlayerOperatorCenter(currentUser);
+
+            operators.forEach(op => {
+                const roleDiv = document.createElement('div');
+                roleDiv.style.textAlign = 'center';
+                roleDiv.style.cursor = 'pointer';
+                roleDiv.style.padding = '8px';
+                roleDiv.style.border = (currentCenter.operatorId === op.serial_number) ? '3px solid #00ffff' : '2px solid rgba(255,255,255,0.2)';
+                roleDiv.style.borderRadius = '8px';
+                roleDiv.dataset.id = op.serial_number;
+
+                roleDiv.innerHTML = `
+                    <img src="${op.portrait}" style="width:100%; height:100px; object-fit:contain;">
+                    <div style="margin-top:6px;">${op.name}</div>
+                `;
+
+                roleDiv.addEventListener('click', () => {
+                    modal.style.display = 'none';
+                    openOperatorPositionEditor(op.serial_number);
+                });
+
+                roleGrid.appendChild(roleDiv);
+            });
+
+            roleSection.appendChild(roleGrid);
+            modal.querySelector('div').appendChild(roleSection);
+
+            modal.style.display = 'flex';
+
+            // 按鈕事件
+            document.getElementById('save-bg-btn').onclick = () => {
+                if (window.selectedBgId) setCurrentBackground(currentUser, window.selectedBgId);
+                modal.style.display = 'none';
+            };
+
+            document.getElementById('cancel-bg-btn').onclick = () => {
+                modal.style.display = 'none';
+            };
+        }
     </script>
 </body>
 </html>
