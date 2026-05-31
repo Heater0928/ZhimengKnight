@@ -84,12 +84,50 @@
             background:rgba(0,0,0,0.6); padding:8px 18px; border-radius:8px; white-space:nowrap;
         }
 
-        /* 終端 - 大按鈕，靠右 */
+        /* 終端 - 大按鈕，靠右，解決透明部分反白 */
         .big-button {
-            padding:25px 40px; font-size:1.8rem; background:linear-gradient(135deg,#00d4ff,#0077b6);
-            border:none; border-radius:12px; color:white; cursor:pointer; width:fit-content;
+            /* ==================== 尺寸與間距 ==================== */
+            padding: 22px 60px;           /* 內部留白：上/下 35px，左/右 60px。數字越大，按鈕內文字距離邊緣越遠 */
+            font-size: 2.5rem;            /* 文字大小（2.1rem ≈ 33.6px）。調大文字會變大，但可能需要調整 height */
+            min-width: 350px;             /* 最小寬度。防止按鈕被壓得太窄 */
+            height: 150px;                /* 固定高度。配合你的按鈕圖片設計 */
+            /* ==================== 外觀樣式 ==================== */
+            border: none;                 /* 移除邊框（不要框線） */
+            border-radius: 30;             /* 圓角大小。0 = 完全方形（適合木牌風格） */
+            color: #ffffff;               /* 文字顏色 */
+            cursor: pointer;              /* 滑鼠移上去變成「手」圖示，表示可點擊 */
+            /* ==================== 背景圖片設定（最重要） ==================== */
+            background-color: transparent !important;   /* 背景色設為透明（讓 PNG 透明部分真正顯示） */
+            background-size: cover;       /* 背景圖片「覆蓋」整個按鈕區域（推薦） */
+            background-position: center;  /* 背景圖片置中 */
+            background-repeat: no-repeat; /* 不重複顯示 */
+            /* ==================== 定位與層級 ==================== */
+            position: relative;           /* 讓子元素（文字）可以相對定位 */
+            overflow: hidden;             /* 超出部分隱藏，避免圖片溢出 */
+            /* ==================== 文字字形設定 ==================== */
+            font-family: "Noto Sans TC", "PingFang TC", sans-serif;
+            font-weight: 700;           /* 加粗（700 = 較粗） */
+            letter-spacing: 2px;        /* 字間距（讓文字更舒展） */
+
+            /* 去掉藍色反光 */
+            box-shadow: none;
+            /* 或者如果你還想保留一點陰影，可以用下面這行代替 */
+            /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); */
         }
-        .big-button:hover { transform:scale(1.05); box-shadow:0 0 25px #00d4ff; }
+
+        /* 移除暗化層（這是造成白色塊的主因） */
+        .big-button::before {
+            display: none;
+        }
+
+        /* 確保文字在最上層且有陰影更清晰 */
+        .big-button > * {
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 0 10px #ffd700,
+                         0 0 20px #ffd700,
+                        -2px -2px 4px #ffd700;
+        }
 
         /* 其他按鈕群 - 靠右，小一點 */
         .button-row {
@@ -210,7 +248,9 @@
                     <span id="originium">至純源石：0</span>
                 </div>
 
-                <button class="big-button" id="terminal-btn">終端<br>理智 100/100</button>
+                <button class="big-button" id="terminal-btn">
+                    <span style="display:none;">舉殤酒館</span>
+                </button>
 
                 <div class="button-row">
                     <button>編隊</button>
@@ -578,6 +618,13 @@
                 // 【新增】登入後立即套用背景
                 const currentBgId = getCurrentBackground(current);
                 applyBackground(currentBgId);
+                
+                // 【新增】設定終端按鈕的自訂背景圖
+                const terminalBtn = document.getElementById('terminal-btn');
+                if (terminalBtn) {
+                    terminalBtn.style.backgroundImage = "url('images/buttons/terminal.png')";
+                    console.log('✅ 終端按鈕背景圖已套用');
+                }
             }
         });
 
