@@ -89,16 +89,16 @@
             /* ==================== 尺寸與間距 ==================== */
             padding: 22px 60px;           /* 內部留白：上/下 35px，左/右 60px。數字越大，按鈕內文字距離邊緣越遠 */
             font-size: 2.5rem;            /* 文字大小（2.1rem ≈ 33.6px）。調大文字會變大，但可能需要調整 height */
-            min-width: 350px;             /* 最小寬度。防止按鈕被壓得太窄 */
-            height: 150px;                /* 固定高度。配合你的按鈕圖片設計 */
+            min-width: 420px;             /* 最小寬度。防止按鈕被壓得太窄 */
+            height: 178px;                /* 固定高度。配合你的按鈕圖片設計 */
             /* ==================== 外觀樣式 ==================== */
             border: none;                 /* 移除邊框（不要框線） */
-            border-radius: 30;             /* 圓角大小。0 = 完全方形（適合木牌風格） */
+            border-radius: 35;             /* 圓角大小。0 = 完全方形（適合木牌風格） */
             color: #ffffff;               /* 文字顏色 */
             cursor: pointer;              /* 滑鼠移上去變成「手」圖示，表示可點擊 */
             /* ==================== 背景圖片設定（最重要） ==================== */
             background-color: transparent !important;   /* 背景色設為透明（讓 PNG 透明部分真正顯示） */
-            background-size: cover;       /* 背景圖片「覆蓋」整個按鈕區域（推薦） */
+            background-size: contain;       /* cover是背景圖片「覆蓋」整個按鈕區域，contain是保持圖片比例*/
             background-position: center;  /* 背景圖片置中 */
             background-repeat: no-repeat; /* 不重複顯示 */
             /* ==================== 定位與層級 ==================== */
