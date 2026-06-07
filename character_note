@@ -5,10 +5,25 @@ Healing Output: 指角色「輸出」的總治療能力，常用於數據統計�
 Healing Received: 指該目標「受到」的治療量。
 Potency: 在一些 RPG（如《FF14》）中，用來表示技能的基礎治療強度，不直接等於最終血量數值。 
 
-角色對應這一塊
-小暖爐=曉歌
-錦=梅蘭莎
-刻璃曦=炎熔
-繁恩=空爆
-哈爐=蘇蘇洛
-歸燕=能天使
+
+    position: absolute;           /* 控制定位方式（absolute = 相對於畫面） */
+    top: 30px;                    /* ← 調整「距離畫面上方」距離 */
+    left: 30px;                   /* ← 調整「距離畫面左側」距離 */
+    width: 180px;                 /* ← 調整按鈕「寬度」（最常用來控制大小） */
+    height: auto;                 /* 高度自動保持圖片比例（建議不要亂改） */
+
+/* ==================== 返回主頁按鈕 ==================== */
+#back-btn {
+    position: absolute;           /* 絕對定位 */
+    top: 145px;                    /* 距離上方距離 */
+    left: 485px;                   /* 距離左側距離 */
+    width: 1050px;                 /* ← 調整按鈕寬度 */
+    height: auto;                 /* 高度自動，保持比例 */
+    cursor: pointer;
+    z-index: 0;
+    /* 移除所有邊框、光暈、hover效果 */
+    border: none;
+    box-shadow: none;
+    transition: none;
+
+}

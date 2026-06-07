@@ -90,7 +90,7 @@
             padding: 22px 60px;           /* 內部留白：上/下 35px，左/右 60px。數字越大，按鈕內文字距離邊緣越遠 */
             font-size: 2.5rem;            /* 文字大小（2.1rem ≈ 33.6px）。調大文字會變大，但可能需要調整 height */
             min-width: 420px;             /* 最小寬度。防止按鈕被壓得太窄 */
-            height: 178px;                /* 固定高度。配合你的按鈕圖片設計 */
+            height: 130px;                /* 固定高度。配合你的按鈕圖片設計 */
             /* ==================== 外觀樣式 ==================== */
             border: none;                 /* 移除邊框（不要框線） */
             border-radius: 35;             /* 圓角大小。0 = 完全方形（適合木牌風格） */
@@ -113,6 +113,7 @@
             box-shadow: none;
             /* 或者如果你還想保留一點陰影，可以用下面這行代替 */
             /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); */
+            transition: none;
         }
 
         /* 移除暗化層（這是造成白色塊的主因） */
@@ -608,6 +609,13 @@
                 modal.style.display = 'none';
             };
         }
+        // 在 load 事件裡，或單獨監聽
+        document.getElementById('terminal-btn').addEventListener('click', () => {
+            const currentUser = localStorage.getItem('current_user');
+            if (currentUser) {
+                window.location.href = 'game.html';
+            }
+        });
     </script>
 </body>
 </html>
