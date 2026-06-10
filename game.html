@@ -17,5 +17,27 @@
         src="images/buttons/NPC_Nikaido_Hiro.png" 
         alt="返回主頁">
         
+    <!-- 對話系統 -->
+    <div id="dialogue-system" style="display: none;">
+        
+        <div style="display:flex; width:100%; height:100%;">
+
+            <!-- 左側：角色立繪 -->
+            <div style="flex: 1; display:flex; align-items:center; justify-content:center; padding:40px 20px;">
+                <img id="dialogue-character" src="" alt="角色立繪" style="max-height:85vh; max-width:100%;">
+            </div>
+
+            <!-- 右側：選項 + 對話框 -->
+                <div id="dialogue-right">
+                    <!-- 對話選項 -->
+                    <div id="dialogue-options"></div>
+                    
+                <!-- 對話框 -->
+                <div id="dialogue-box">
+                    <div id="dialogue-text"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

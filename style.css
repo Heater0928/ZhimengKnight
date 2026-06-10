@@ -38,3 +38,71 @@ body, html {
         100% 52%, 99% 64%, 96% 67%, 94% 85%, 79% 88%
     ) 
 }
+
+/* ==================== 對話系統 ==================== */
+#dialogue-system {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 30;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+}
+
+#dialogue-character {
+    max-height: 180vh !important;           /* ← 調整立繪大小（數字越大立繪越大） */
+    max-width: 150% !important;
+    object-fit: contain;
+    justify-content: flex-end;
+    margin-top: auto;
+}
+/* ==================== 右側整體區域 ==================== */
+#dialogue-right {
+    width: 550px;               
+    padding: 30px 40px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;     /* 關鍵：把內容推到下方 */
+    height: 90%;
+}
+
+/* ==================== 對話框位置調整 ==================== */
+#dialogue-box {
+    background: rgba(0, 0, 0, 0.92);
+    border: 3px solid #00ffff;
+    border-radius: 12px;
+    padding: 25px 35px;
+    color: #ffffff;
+    font-size: 1.35rem;
+    line-height: 1.7;
+    
+    /* 調整對話框位置的關鍵參數 */
+    margin-top: auto;                /* 自動推到最下方 */
+    /* margin-top: 80px; */          /* 如果想讓對話框再往上移，可以取消註解調整數字 */
+    min-height: 160px;
+}
+
+#dialogue-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 15px;        /* 與對話框的間距 */
+}
+
+/* 對話選項樣式（純黑底 + 白色文字） */
+.dialogue-option {
+    padding: 16px 24px;
+    background: #000000;        /* 純黑底 */
+    color: #ffffff;             /* 白色文字 */
+    border: 2px solid #00ffff;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.25rem;         /* ← 調整選項文字大小 */
+    transition: all 0.25s;
+}
+
+.dialogue-option:hover {
+    background: rgba(0, 255, 255, 0.25);
+    border-color: #00ffff;
+    transform: translateX(12px);
+}
