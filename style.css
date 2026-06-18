@@ -1,3 +1,28 @@
+/* ==================== 遊戲整體防選取保護 ==================== */
+* {
+    -webkit-user-select: none;     /* Chrome、Safari */
+    -moz-user-select: none;        /* Firefox */
+    -ms-user-select: none;         /* IE/Edge */
+    user-select: none;             /* 標準寫法 */
+    
+    -webkit-touch-callout: none;   /* iOS 長按 */
+    -khtml-user-select: none;
+}
+
+/* 讓圖片無法被拖曳、右鍵儲存 */
+img {
+    -webkit-user-drag: none;
+    user-drag: none;
+    -webkit-touch-callout: none;
+    /*pointer-events: none;*/          /* 可選：讓圖片無法被點擊（如果不需要點擊圖片） */
+}
+
+/* 如果某些地方需要允許選取文字（如對話文字），可以針對性開放 */
+#dialogue-text,
+#dialogue-box {
+    user-select: none;
+    -webkit-user-select: none;
+}
 /* ==================== 遊戲頁面全螢幕設定 ==================== */
 body, html {
     margin: 0;
