@@ -177,7 +177,7 @@
         }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
 
     <img id="background" src="images/background.jpg" alt="背景">
     <div class="overlay" id="overlay"></div>
@@ -214,6 +214,12 @@
         <button id="logout-btn" style="margin-top:30px; padding:15px 40px; font-size:1.4rem; background:#ff4444; border:none; border-radius:10px; color:white; cursor:pointer;">
             帳號登出
         </button>
+
+        <!-- 新增：刪除帳號按鈕 -->
+        <button id="delete-account-btn" style="margin:10px; padding:15px 40px; font-size:1.4rem; background:#9f1239; border:none; border-radius:10px; color:white; cursor:pointer;">
+            🗑️ 刪除目前帳號（測試用）
+        </button>
+
         <button onclick="document.getElementById('settings-page').style.display='none';" style="margin-top:20px; padding:10px 20px; background:rgba(255,255,255,0.2); border:none; border-radius:8px; color:white;">
             返回主頁
         </button>
@@ -613,6 +619,37 @@
             const currentUser = localStorage.getItem('current_user');
             if (currentUser) {
                 window.location.href = 'game.html';
+            }
+        });
+        // ==================== 刪除帳號功能 ====================
+        document.getElementById('delete-account-btn').addEventListener('click', () => {
+            const currentUser = localStorage.getItem('current_user');
+            
+            if (!currentUser) {
+                alert('目前沒有登入帳號！');
+                return;
+            }
+
+            const confirmDelete = confirm(`⚠️ 確定要刪除帳號「${currentUser}」嗎？\n\n此操作無法恢復，所有存檔將被清除！`);
+            
+            if (confirmDelete) {
+                // 刪除該帳號的所有資料
+                localStorage.removeItem('player_data_' + currentUser);
+                localStorage.removeItem('player_background_' + currentUser);
+                localStorage.removeItem('player_operator_center_' + currentUser);
+                localStorage.removeItem('zhimeng_accounts'); // 如果只剩這一個帳號，可選擇性刪除整個帳號列表
+
+                alert(`帳號「${currentUser}」已成功刪除！`);
+                
+                // 登出並返回登入畫面
+                localStorage.removeItem('current_user');
+                document.getElementById('settings-page').style.display = 'none';
+                document.getElementById('main-page').style.display = 'none';
+                document.getElementById('login-container').style.display = 'flex';
+                
+                // 清空輸入框
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
             }
         });
     </script>
